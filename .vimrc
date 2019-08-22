@@ -21,6 +21,7 @@ Plug 'tpope/vim-endwise'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'zxqfl/tabnine-vim'
 Plug 'szw/vim-tags'
+Plug 'cohama/lexima.vim'
 call plug#end()
 
 let g:indent_guides_enable_on_vim_startup = 1
