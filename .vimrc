@@ -10,6 +10,7 @@ set shiftwidth=2
 set backspace=indent,eol,start
 set smartcase
 set laststatus=2
+set expandtab
 
 autocmd vimenter * NERDTree
 map <C-n> :NERDTreeToggle<CR>
