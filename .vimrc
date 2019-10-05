@@ -11,8 +11,12 @@ set backspace=indent,eol,start
 set smartcase
 set laststatus=2
 set expandtab
+syntax enable
+colorscheme yozakura
 
 autocmd vimenter * NERDTree
+autocmd FileType vue syntax sync fromstart
+autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
 map <C-n> :NERDTreeToggle<CR>
 
 " Plugin SetUp
@@ -23,6 +27,8 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'zxqfl/tabnine-vim'
 Plug 'szw/vim-tags'
 Plug 'cohama/lexima.vim'
+Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 call plug#end()
 
 let g:indent_guides_enable_on_vim_startup = 1
