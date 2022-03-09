@@ -1,24 +1,31 @@
 syntax on
+syntax enable
 set number
 set cursorline
 set virtualedit=onemore
 set smartindent
 set showmatch
-syntax enable
 set tabstop=4
 set shiftwidth=4
 set backspace=indent,eol,start
 set smartcase
 set laststatus=2
 set expandtab
-syntax enable
 set background=dark
+set listchars=tab:-\ ,trail:_,eol:$
+
+let macvim_skip_colorscheme=1
+
 colorscheme tender
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
 autocmd BufNewFile,BufRead *.c set tabstop=2
 autocmd BufNewFile,BufRead *.c set shiftwidth=2
+autocmd BufNewFile,BufRead *.js set tabstop=2
+autocmd BufNewFile,BufRead *.js set shiftwidth=2
+autocmd BufNewFile,BufRead *.jsx set tabstop=2
+autocmd BufNewFile,BufRead *.jsx set shiftwidth=2
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-t> :bo terminal ++rows=15<CR>
@@ -27,7 +34,6 @@ map <C-t> :bo terminal ++rows=15<CR>
 call plug#begin()
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-endwise'
-Plug 'zxqfl/tabnine-vim'
 Plug 'szw/vim-tags'
 Plug 'cohama/lexima.vim'
 Plug 'posva/vim-vue'
@@ -35,7 +41,7 @@ Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'fatih/vim-go'
 Plug 'Shougo/unite.vim'
 Plug 'Quramy/tsuquyomi'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 Plug 'udalov/kotlin-vim'
 " ddc.vim本体
 Plug 'Shougo/ddc.vim'
@@ -53,8 +59,11 @@ Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/ddc-sorter_rank'
 " 補完候補の重複を防ぐためのfilter
 Plug 'Shougo/ddc-converter_remove_overlap'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/vim-lsp'
+
+Plug 'jacoborus/tender.vim'
+
+Plug 'itchyny/lightline.vim'
+
 call plug#end()
 
 autocmd FileType vue syntax sync fromstart
@@ -65,6 +74,8 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_auto_colors=0
+set list listchars=tab:\¦\
+"go"
 let g:go_fmt_command = "goimports"
 let g:go_highlight_array_whitespace_error = 1
 let g:go_highlight_chan_whitespace_error = 1
@@ -81,10 +92,9 @@ let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
-" 奇数インデントのカラー
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#111111 ctermbg=18
-" 偶数インデントのカラー
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#222222 ctermbg=19
+
+let g:lightline = {'colorscheme': 'tender'}
+
 
 
 " ddc
@@ -123,9 +133,9 @@ call ddc#custom#patch_global('sourceOptions', {
  \   'forceCompletionPattern': '\S/\S*'
  \ }})
 call ddc#enable()
-" Mappings
+" Mappings"
 
-" <TAB>: completion.
+" <TAB>: completion."
 inoremap <silent><expr> <TAB>
 \ ddc#map#pum_visible() ? '<C-n>' :
 \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
@@ -134,6 +144,9 @@ inoremap <silent><expr> <TAB>
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
 
+
+" :vim {pattern} {file} | cw
+autocmd QuickFixCmdPost *grep* cwindow
 
 imap { {}<LEFT>
 imap [ []<LEFT>
