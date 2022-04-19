@@ -5,8 +5,8 @@ set cursorline
 set virtualedit=onemore
 set smartindent
 set showmatch
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set backspace=indent,eol,start
 set smartcase
 set laststatus=2
@@ -20,12 +20,8 @@ colorscheme tender
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
-autocmd BufNewFile,BufRead *.c set tabstop=2
-autocmd BufNewFile,BufRead *.c set shiftwidth=2
-autocmd BufNewFile,BufRead *.js set tabstop=2
-autocmd BufNewFile,BufRead *.js set shiftwidth=2
-autocmd BufNewFile,BufRead *.jsx set tabstop=2
-autocmd BufNewFile,BufRead *.jsx set shiftwidth=2
+autocmd BufNewFile,BufRead *.go set tabstop=4
+autocmd BufNewFile,BufRead *.go set shiftwidth=4
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-t> :bo terminal ++rows=15<CR>
@@ -63,6 +59,9 @@ Plug 'Shougo/ddc-converter_remove_overlap'
 Plug 'jacoborus/tender.vim'
 
 Plug 'itchyny/lightline.vim'
+
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
 
 call plug#end()
 
