@@ -63,6 +63,9 @@ Plug 'Shougo/ddc-converter_remove_overlap'
 Plug 'jacoborus/tender.vim'
 
 Plug 'itchyny/lightline.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
 
 call plug#end()
 
@@ -95,7 +98,8 @@ let g:go_highlight_variable_declarations = 1
 
 let g:lightline = {'colorscheme': 'tender'}
 
-
+let g:lsp_diagnostics_echo_cursor = 1
+let lsp_signature_help_enabled = 0
 
 " ddc
 call plug#('Shougo/ddc.vim')
