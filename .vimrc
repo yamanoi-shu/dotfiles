@@ -66,6 +66,9 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
 
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
+
 call plug#end()
 
 autocmd FileType vue syntax sync fromstart
