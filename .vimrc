@@ -2,17 +2,16 @@ syntax on
 syntax enable
 set number
 set cursorline
-set virtualedit=onemore
 set smartindent
 set showmatch
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set backspace=indent,eol,start
 set smartcase
 set laststatus=2
 set expandtab
 set background=dark
-set listchars=tab:-\ ,trail:_,eol:$
+set listchars=tab:-\ ,trail:-,eol:$
 
 let macvim_skip_colorscheme=1
 
@@ -20,8 +19,12 @@ colorscheme tender
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
-autocmd BufNewFile,BufRead *.go set tabstop=4
-autocmd BufNewFile,BufRead *.go set shiftwidth=4
+autocmd BufNewFile,BufRead *.c set tabstop=2
+autocmd BufNewFile,BufRead *.c set shiftwidth=2
+autocmd BufNewFile,BufRead *.js set tabstop=2
+autocmd BufNewFile,BufRead *.js set shiftwidth=2
+autocmd BufNewFile,BufRead *.jsx set tabstop=2
+autocmd BufNewFile,BufRead *.jsx set shiftwidth=2
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-t> :bo terminal ++rows=15<CR>
@@ -61,18 +64,16 @@ Plug 'jacoborus/tender.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'bronson/vim-trailing-whitespace'
 
-
-Plug 'dart-lang/dart-vim-plugin'
-Plug 'thosakwe/vim-flutter'
-
-Plug 'dart-lang/dart-vim-plugin'
-Plug 'thosakwe/vim-flutter'
 
 call plug#end()
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
+
+" remove white space
+autocmd BufWritePost * FixWhitespace
 
 "indentLine"
 let g:indent_guides_enable_on_vim_startup = 1
@@ -98,7 +99,12 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
-let g:lightline = {'colorscheme': 'tender'}
+let g:lightline = {
+    \ 'colorscheme': 'tender',
+    \ 'active': {
+    \    'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
+    \ }
+    \ }
 
 let g:lsp_diagnostics_echo_cursor = 1
 let lsp_signature_help_enabled = 0
