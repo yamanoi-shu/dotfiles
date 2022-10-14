@@ -2,7 +2,6 @@ syntax on
 syntax enable
 set number
 set cursorline
-set virtualedit=onemore
 set smartindent
 set showmatch
 set tabstop=2
@@ -13,10 +12,11 @@ set laststatus=2
 set expandtab
 set background=dark
 set listchars=tab:-\ ,trail:_,eol:$
+set clipboard+=unnamed
 
 let macvim_skip_colorscheme=1
 
-colorscheme tender
+colorscheme yozakura 
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
@@ -58,7 +58,7 @@ Plug 'Shougo/ddc-converter_remove_overlap'
 
 Plug 'jacoborus/tender.vim'
 
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
@@ -98,7 +98,7 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
-let g:lightline = {'colorscheme': 'tender'}
+" let g:lightline = {'colorscheme': 'tender'}
 
 let g:lsp_diagnostics_echo_cursor = 1
 let lsp_signature_help_enabled = 0
