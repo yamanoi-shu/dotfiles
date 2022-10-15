@@ -16,7 +16,11 @@ set clipboard+=unnamed
 
 let macvim_skip_colorscheme=1
 
-colorscheme yozakura 
+" colorscheme (everforest)
+let g:everforest_background = 'hard'
+let g:everforest_better_performance = 1
+let g:everforest_disable_terminal_colors = 1
+colorscheme everforest
 
 autocmd FileType vue syntax sync fromstart
 autocmd BufNewFile,BufRead *.{html,htm,vue*} set filetype=html
@@ -66,6 +70,7 @@ Plug 'jacoborus/tender.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'sainnhe/everforest'
 
 
 call plug#end()
@@ -101,7 +106,7 @@ let g:go_highlight_variable_assignments = 1
 let g:go_highlight_variable_declarations = 1
 
 let g:lightline = {
-    \ 'colorscheme': 'tender',
+    \ 'colorscheme': 'everforest',
     \ 'active': {
     \    'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
     \ }
@@ -147,6 +152,7 @@ call ddc#custom#patch_global('sourceOptions', {
  \ }})
 call ddc#enable()
 " Mappings"
+
 
 " <TAB>: completion."
 inoremap <silent><expr> <TAB>
