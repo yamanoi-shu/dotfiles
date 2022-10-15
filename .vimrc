@@ -165,6 +165,8 @@ inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
 
 
 " :vim {pattern} {file} | cw
+:command -nargs=1 Vim vim <args> **/* | cw
+
 autocmd QuickFixCmdPost *grep* cwindow
 
 imap { {}<LEFT>
