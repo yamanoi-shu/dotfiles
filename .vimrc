@@ -66,12 +66,11 @@ Plug 'Shougo/ddc-converter_remove_overlap'
 
 Plug 'jacoborus/tender.vim'
 
-" Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'sainnhe/everforest'
-
 
 call plug#end()
 
@@ -108,8 +107,11 @@ let g:go_highlight_variable_declarations = 1
 let g:lightline = {
     \ 'colorscheme': 'everforest',
     \ 'active': {
-    \    'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
-    \ }
+    \    'left': [ [ 'mode', 'paste' ], ['gitbranch', 'readonly', 'absolutepath', 'modified' ] ],
+    \ },
+    \ 'component_function': {
+    \ 'gitbranch': 'FugitiveHead'
+    \ },
     \ }
 
 let g:lsp_diagnostics_echo_cursor = 1
@@ -172,3 +174,35 @@ autocmd QuickFixCmdPost *grep* cwindow
 imap { {}<LEFT>
 imap [ []<LEFT>
 imap ( ()<LEFT>
+
+
+" Python formatter
+function! Preserve(command)
+    " Save the last search.
+    let search = @/
+    " Save the current cursor position.
+    let cursor_position = getpos('.')
+    " Save the current window position.
+    normal! H
+    let window_position = getpos('.')
+    call setpos('.', cursor_position)
+    " Execute the command.
+    execute a:command
+    " Restore the last search.
+    let @/ = search
+    " Restore the previous window position.
+    call setpos('.', window_position)
+    normal! zt
+    " Restore the previous cursor position.
+    call setpos('.', cursor_position)
+endfunction
+
+function! Autopep8()
+    "--ignote=E501: Ignore completing the length of a line."
+    call Preserve(':silent %!autopep8 --ignore=E501 -')
+endfunction
+
+augroup python_auto_lint
+  autocmd!
+  autocmd BufWrite *.py :call Autopep8()
+augroup END
