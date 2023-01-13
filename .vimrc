@@ -75,6 +75,8 @@ Plug 'tpope/vim-rails'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'ruby-formatter/rufo-vim'
+Plug 'hashivim/vim-terraform'
+Plug 'Shougo/ddc-ui-native'
 
 call plug#end()
 
@@ -92,6 +94,7 @@ let g:indent_guides_auto_colors=0
 set list listchars=tab:\¦\
 "go"
 let g:go_fmt_command = "goimports"
+let g:goimports_simplify = 1
 let g:go_highlight_array_whitespace_error = 1
 let g:go_highlight_chan_whitespace_error = 1
 let g:go_highlight_extra_types = 1
@@ -156,6 +159,7 @@ call ddc#custom#patch_global('sourceOptions', {
  \   'isVolatile': v:true,
  \   'forceCompletionPattern': '\S/\S*'
  \ }})
+call ddc#custom#patch_global('ui', 'native')
 call ddc#custom#patch_filetype(
     \ ['ps1', 'dosbatch', 'autohotkey', 'registry'], {
     \ 'sourceOptions': {
@@ -169,8 +173,16 @@ call ddc#custom#patch_filetype(
     \   },
     \ }})
 call ddc#enable()
-inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
-inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+" inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
+" inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? '<C-n>' :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ '<TAB>' : ddc#map#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
 " Mappings"
 
 " Ruby
