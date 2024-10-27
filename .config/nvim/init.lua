@@ -2,6 +2,7 @@ local vim = vim
 local Plug = vim.fn['plug#']
 local opt = vim.opt
 
+
 require "plugins"
 
 
@@ -19,25 +20,47 @@ opt.mouse=a
 vim.wo.list = true
 vim.wo.listchars = 'tab:¦ '
 vim.o.background = dark
+vim.scriptencoding="UTF-8"
 
 -- enable clipboard
 vim.opt.clipboard = "unnamedplus"
 
+vim.opt.foldmethod=manual
+
 
 -- colorscheme everforest settings
-require("everforest").setup({
-  background = "medium",
-  transparent_background_level = 0,
-  italics = false,
-})
-require("everforest").load()
+-- require("everforest").setup({
+--   background = "medium",
+--   transparent_background_level = 0,
+--   italics = false,
+-- })
+-- require("everforest").load()
+
+
+-- vim.cmd[[colorscheme tender]]
+
+-- vim.cmd[[colorscheme gotham]]
+
+-- vim.g['quantum_black']=1
+-- vim.cmd[[colorscheme quantum]]
+
+-- vim.g['sonokai_style']='andromeda'
+-- vim.cmd[[colorscheme sonokai]]
+
+-- vim.cmd[[colorscheme materialtheme]]
+
+-- vim.cmd[[colorscheme tokyonight]]
+
+vim.cmd[[colorscheme nordfox]]
+
+vim.opt.showtabline = 0
 
 local my_filename = require('lualine.components.filename'):extend()
 my_filename.apply_icon = require('lualine.components.filetype').apply_icon
 
 -- lualine settings
 require('lualine').setup {
-	theme = 'everforest',
+	theme = 'nordfox',
 	sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
@@ -76,7 +99,7 @@ local on_attatch = function (client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-H>', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = true})
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-J>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true, silent = true})
 	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-J>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap = true, silent = true})
-	vim.api.nvim_buf_set_keymap(bufnr, 'i', '<ECS><ECS>', '<ECS>', {noremap = true, silent = true})
+	vim.api.nvim_buf_set_keymap(bufnr, 'n', '<ESC>', '<ESC>', {noremap = true, silent = true})
 end
 vim.api.nvim_set_keymap('n', '<C-T>', '<C-O>', { noremap = true, silent = true })
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -95,6 +118,12 @@ local double = {
       {"╚", "FloatBorder"},  -- lower left
       {"║", "FloatBorder"},  -- left
 }
+vim.cmd [[
+" autocmd ColorScheme * highlight NormalFloat guifg=gray guibg=#073642
+" autocmd ColorScheme * highlight FloatBorder guifg=gray guibg=#073642
+autocmd ColorScheme * highlight! link Pmenu FloatBorder
+autocmd ColorScheme * highlight! link Pmenu NormalFloat
+]]
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover,
   {
@@ -128,6 +157,15 @@ lspconfig.rust_analyzer.setup({
 		},
 	},
 })
+
+-- Terraform
+lspconfig.tflint.setup{}
+lspconfig.terraform_lsp.setup{}
+
+-- typescript
+require'lspconfig'.tsserver.setup{}
+
+
 -- auto format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
 		buffer = buffer,
@@ -140,6 +178,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 vim.keymap.set('','<C-n>', ':NERDTreeToggle<CR>')
+
 
 
 -- nvim-cmp settings
@@ -174,6 +213,104 @@ cmp.setup({
 	}, {
 		{ name = 'buffer' },
 	})
+})
+
+-- js, ts, jsx
+-- prettier settings(formatter)
+local prettier = require("prettier")
+
+prettier.setup({
+  bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
+  filetypes = {
+    "css",
+    "graphql",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "less",
+    "markdown",
+    "scss",
+    "typescript",
+    "typescriptreact",
+    "yaml",
+  },
+})
+-- treesitter settings(syntax highlighting)
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enabled = true,
+  },
+	ensure_installed = {
+    "tsx",
+		"jsx",
+    "toml",
+    "fish",
+    "php",
+    "json",
+    "yaml",
+    "swift",
+    "css",
+    "html",
+    "lua",
+		"markdown",
+		"go"
+  },
+}
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+-- autotag settings
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+  -- Also override individual filetype configs, these take priority.
+  -- Empty by default, useful if one of the "opts" global settings
+  -- doesn't work well in a specific filetype
+  per_filetype = {
+    ["html"] = {
+      enable_close = false
+    }
+  }
+})
+
+-- git.nvim settings
+require('git').setup({
+  default_mappings = true, -- NOTE: `quit_blame` and `blame_commit` are still merged to the keymaps even if `default_mappings = false`
+
+  keymaps = {
+    -- Open blame window
+    blame = "<CR>x",
+    -- Close blame window
+    quit_blame = "q",
+    -- Open blame commit
+    blame_commit = "<CR>",
+    -- Quit blame commit
+    quit_blame_commit = "q",
+    -- Open file/folder in git repository
+    browse = "<Leader>go",
+    -- Open pull request of the current branch
+    open_pull_request = "<Leader>gp",
+    -- Create a pull request with the target branch is set in the `target_branch` option
+    create_pull_request = "<Leader>gn",
+    -- Opens a new diff that compares against the current index
+    diff = "<Leader>gd",
+    -- Close git diff
+    diff_close = "<Leader>gD",
+    -- Revert to the specific commit
+    revert = "<Leader>gr",
+    -- Revert the current file to the specific commit
+    revert_file = "<Leader>gR",
+  },
+  -- Default target branch when create a pull request
+  target_branch = "master",
+  -- Private gitlab hosts, if you use a private gitlab, put your private gitlab host here
+  private_gitlabs = { "https://xxx.git.com" },
+  -- Enable winbar in all windows created by this plugin
+  winbar = false,
 })
 
 -- vim-go syntax highlighting
@@ -213,11 +350,8 @@ vim.cmd('autocmd BufNewFile,BufRead *.lua set shiftwidth=2')
 vim.cmd('autocmd BufNewFile,BufRead *.go set tabstop=4')
 vim.cmd('autocmd BufNewFile,BufRead *.go set shiftwidth=4')
 
-vim.api.nvim_set_keymap('n', '<C-X>o', '<cmd>DiffviewOpen<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<C-X>q', '<cmd>DiffviewClose<CR>', {noremap = true, silent = true})
 
-
-vim.cmd('autocmd BufWritePre * FixWhitespace')
+-- vim.cmd('autocmd BufWritePre * FixWhitespace')
 vim.cmd('autocmd QuickFixCmdPost *grep* cwindow')
 
 vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true })

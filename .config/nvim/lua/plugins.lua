@@ -40,14 +40,35 @@ require("packer").startup(function()
 	use 'scrooloose/nerdtree'
 	use 'tpope/vim-endwise'
 	use 'bronson/vim-trailing-whitespace'
-	use {
-	  'neanias/everforest-nvim',
-	  branch = 'main'
-	}
 	use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 	use {
     'junegunn/fzf.vim',
     requires = { 'junegunn/fzf', run = ':call fzf#install()' }
  }
  use "sindrets/diffview.nvim"
+ use 'dinhhuy258/git.nvim'
+
+ -- js/ts
+ use 'MunifTanjim/prettier.nvim'
+ use {
+		'nvim-treesitter/nvim-treesitter',
+		run = ':TSUpdate'
+ }
+ use 'windwp/nvim-ts-autotag'
+
+	-- Colorschemes
+	use {
+	  'neanias/everforest-nvim',
+	  branch = 'main'
+	}
+	use 'jacoborus/tender.vim'
+	use 'whatyouhide/vim-gotham'
+	use 'gbprod/nord.nvim'
+	use 'tyrannicaltoucan/vim-quantum'
+	use 'sainnhe/sonokai'
+	use 'christophermca/meta5'
+	use 'shrikecode/kyotonight.vim'
+	use 'Wutzara/vim-materialtheme'
+	use 'ghifarit53/tokyonight-vim'
+	use 'EdenEast/nightfox.nvim'
 end)
